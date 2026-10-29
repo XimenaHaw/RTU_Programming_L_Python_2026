@@ -57,30 +57,40 @@ Examples (these are also used to check your work):
 
 def count_characters(text: str) -> int:
     """Count characters that are not whitespace."""
-    # TODO: implement
-    raise NotImplementedError("count_characters() is not implemented yet")
+    return sum(1 for char in text if not char.isspace())
 
 
 def count_words(text: str) -> int:
     """Count number of whitespace-separated words."""
-    # TODO: implement
-    raise NotImplementedError("count_words() is not implemented yet")
+    return len(text.strip().split())
 
 
 def extract_numbers(text: str) -> list[int]:
     """Return a list of the integers found in text, in order."""
-    # TODO: implement
-    raise NotImplementedError("extract_numbers() is not implemented yet")
+    list = []
+    for x in text.split():
+        x = x.rstrip(".,!?;:")
+        if x.isdigit() or (x.startswith("-") and x[1:].isdigit()):
+            list.append(int(x))
+    return list
 
 
 def analyze_text(text: str) -> dict:
     """Return a dict with characters, words, numbers, sum and average."""
-    # TODO: call the helper functions and compute sum and average
-    raise NotImplementedError("analyze_text() is not implemented yet")
+    sum = 0
+    for x in extract_numbers(text):
+        sum += x
+    return {
+        "characters": count_characters(text),
+        "words": count_words(text),
+        "numbers": extract_numbers(text),
+        "sum": sum,
+        "average": (
+            sum / len(extract_numbers(text)) if len(extract_numbers(text)) != 0 else 0.0
+        ),
+    }
 
 
 if __name__ == "__main__":
-    # Keep all input() calls inside this block, otherwise the autograder
-    # cannot import your file.
-    # TODO: read input, call analyze_text(), and print results
-    pass
+    print("Enter a sentence:")
+    print(analyze_text(input()))
